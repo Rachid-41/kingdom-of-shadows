@@ -1,0 +1,106 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>مملكة الظلال | مشاهدة</title>
+<style>
+*{box-sizing:border-box}
+body{
+ margin:0;background:#090909;color:white;
+ font-family:Arial,sans-serif;
+}
+header{
+ padding:22px;text-align:center;
+ background:#15100d;border-bottom:2px solid #b58a42;
+}
+h1{color:#d6ad60;margin:0}
+header p{color:#aaa}
+.container{max-width:950px;margin:25px auto;padding:15px}
+video{
+ width:100%;background:#000;
+ border:1px solid #a98243;border-radius:12px;
+}
+h2{color:#d6ad60}
+.episodes{display:grid;gap:10px}
+button{
+ background:#211b15;color:white;
+ border:1px solid #a98243;
+ padding:15px;border-radius:8px;
+ cursor:pointer;text-align:right;
+}
+button:hover{background:#59401e}
+.active{background:#765326}
+.upload{margin:20px 0;padding:15px;background:#181818;border-radius:10px}
+input{max-width:100%;margin:10px 0;color:white}
+footer{text-align:center;color:#888;padding:25px}
+</style>
+</head>
+<body>
+
+<header>
+<h1>⚔️ مملكة الظلال</h1>
+<p>العرش الأخير يبدأ من هنا</p>
+</header>
+
+<div class="container">
+<h2 id="episodeTitle">الحلقة الأولى</h2>
+
+<video id="player" controls playsinline>
+<source src="videos/episode1.mp4" type="video/mp4">
+متصفحك لا يدعم تشغيل الفيديو.
+</video>
+
+<div class="upload">
+<h3>📁 تشغيل فيديو من جهازك</h3>
+<input type="file" id="fileInput" accept="video/*">
+</div>
+
+<h2>حلقات الموسم الأول</h2>
+<div class="episodes" id="episodes"></div>
+</div>
+
+<footer>
+مملكة الظلال © 2026
+</footer>
+
+<script>
+const list = [
+ {name:"الحلقة الأولى - الأمير المفقود",src:"videos/episode1.mp4"},
+ {name:"الحلقة الثانية - سر الخاتم",src:"videos/episode2.mp4"},
+ {name:"الحلقة الثالثة - عودة الظلام",src:"videos/episode3.mp4"},
+ {name:"الحلقة الرابعة - خيانة القصر",src:"videos/episode4.mp4"},
+ {name:"الحلقة الخامسة - حرب الممالك",src:"videos/episode5.mp4"}
+];
+
+const player=document.getElementById("player");
+const title=document.getElementById("episodeTitle");
+const episodes=document.getElementById("episodes");
+
+list.forEach((ep,i)=>{
+ const btn=document.createElement("button");
+ btn.textContent="▶ "+ep.name;
+ btn.onclick=()=>{
+  player.src=ep.src;
+  player.load();
+  player.play();
+  title.textContent=ep.name;
+  document.querySelectorAll("button").forEach(b=>b.classList.remove("active"));
+  btn.classList.add("active");
+ };
+ episodes.appendChild(btn);
+});
+
+document.getElementById("fileInput").onchange=e=>{
+ const file=e.target.files[0];
+ if(!file)return;
+ player.src=URL.createObjectURL(file);
+ player.load();
+ player.play();
+ title.textContent="تشغيل: "+file.name;
+};
+</script>
+
+</body>
+</html>
